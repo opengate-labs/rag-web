@@ -10,6 +10,7 @@
     "gen:types:local": "npx supabase gen types typescript --local > database.types.ts"
   },
   "dependencies": {
+    "@elastic/elasticsearch": "^8.17.0",
     "@radix-ui/react-slot": "^1.1.1",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.48.0",

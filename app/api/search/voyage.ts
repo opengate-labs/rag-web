@@ -14,6 +14,8 @@ export class VoyageEmbedding {
     });
 
     if (!response.ok) {
+      console.error(response);
+      
       throw new Error('Failed to get embedding from Voyage AI');
     }
 

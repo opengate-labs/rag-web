@@ -62,7 +62,7 @@ export default function ApartmentSearch() {
         </button>
       </div>
 
-      {results.length > 0 && (
+      {results?.length > 0 && (
         <div className="space-y-4">
           <h2 className="text-xl font-semibold">Search Results</h2>
           {results.map((result) => (

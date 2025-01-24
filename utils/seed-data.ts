@@ -1,9 +1,9 @@
 import { VoyageEmbedding } from '@/app/api/search/voyage';
 import { createClient } from '@/utils/supabase/server';
 import type { Database } from '@/database.types';
+import { mockApartments } from '@/database/mock-apartments';
 
-
-interface MockApartment {
+export interface MockApartment {
   title: string;
   description: string;
   apartmentType: 'studio' | 'apartment' | 'house' | 'villa';
@@ -29,247 +29,6 @@ interface MockApartment {
   features: string[];
 }
 
-const mockApartments: MockApartment[] = [
-  {
-    title: "Family-Friendly Lake View Apartment",
-    description: "Spacious 2-bedroom apartment near Sevan Lake. Perfect for families. Features AC in master bedroom, three single beds in second bedroom, and a cozy yard.",
-    apartmentType: "apartment",
-    totalArea: 120,
-    pricePerMonth: 800,
-    bedroomCount: 2,
-    bathroomCount: 1,
-    maxOccupancy: 5,
-    locationAddress: "123 Lakeview Street",
-    locationCity: "Sevan",
-    locationCoordinates: { lat: 40.5473, lng: 44.9319 },
-    hasParking: true,
-    hasYard: true,
-    yardArea: 30,
-    rooms: [
-      {
-        roomType: "bedroom",
-        area: 25,
-        hasAC: true,
-        hasHeating: true,
-        bedCount: 1,
-        bedType: "double"
-      },
-      {
-        roomType: "bedroom",
-        area: 20,
-        hasAC: false,
-        hasHeating: true,
-        bedCount: 3,
-        bedType: "single"
-      },
-      {
-        roomType: "living_room",
-        area: 35,
-        hasAC: true,
-        hasHeating: true
-      },
-      {
-        roomType: "kitchen",
-        area: 25,
-        hasAC: false,
-        hasHeating: true
-      },
-      {
-        roomType: "bathroom",
-        area: 15,
-        hasAC: false,
-        hasHeating: true
-      }
-    ],
-    features: ["lake_view", "family_friendly", "furnished", "internet", "balcony"]
-  },
-  {
-    title: "Modern Studio in City Center",
-    description: "Newly renovated studio apartment in the heart of Yerevan. Perfect for young professionals. Features smart home system, modern appliances, and stunning city views.",
-    apartmentType: "studio",
-    totalArea: 45,
-    pricePerMonth: 600,
-    bedroomCount: 0,
-    bathroomCount: 1,
-    maxOccupancy: 2,
-    locationAddress: "45 Abovyan Street",
-    locationCity: "Yerevan",
-    locationCoordinates: { lat: 40.1872, lng: 44.5152 },
-    hasParking: false,
-    hasYard: false,
-    rooms: [
-      {
-        roomType: "living_room",
-        area: 30,
-        hasAC: true,
-        hasHeating: true,
-        bedCount: 1,
-        bedType: "murphy"
-      },
-      {
-        roomType: "kitchen",
-        area: 10,
-        hasAC: false,
-        hasHeating: true
-      },
-      {
-        roomType: "bathroom",
-        area: 5,
-        hasAC: false,
-        hasHeating: true
-      }
-    ],
-    features: ["city_view", "smart_home", "modern_appliances", "elevator", "security"]
-  },
-  {
-    title: "Luxurious Villa with Pool",
-    description: "Elegant 4-bedroom villa in Dilijan with private pool and mountain views. Features high-end finishes, smart home system, and professional landscaping.",
-    apartmentType: "villa",
-    totalArea: 300,
-    pricePerMonth: 2500,
-    bedroomCount: 4,
-    bathroomCount: 3,
-    maxOccupancy: 8,
-    locationAddress: "78 Mountain View Road",
-    locationCity: "Dilijan",
-    locationCoordinates: { lat: 40.7417, lng: 44.8651 },
-    hasParking: true,
-    hasYard: true,
-    yardArea: 500,
-    rooms: [
-      {
-        roomType: "bedroom",
-        area: 40,
-        hasAC: true,
-        hasHeating: true,
-        bedCount: 1,
-        bedType: "king"
-      },
-      {
-        roomType: "bedroom",
-        area: 35,
-        hasAC: true,
-        hasHeating: true,
-        bedCount: 1,
-        bedType: "queen"
-      },
-      {
-        roomType: "bedroom",
-        area: 30,
-        hasAC: true,
-        hasHeating: true,
-        bedCount: 2,
-        bedType: "single"
-      },
-      {
-        roomType: "bedroom",
-        area: 30,
-        hasAC: true,
-        hasHeating: true,
-        bedCount: 2,
-        bedType: "single"
-      },
-      {
-        roomType: "living_room",
-        area: 80,
-        hasAC: true,
-        hasHeating: true
-      },
-      {
-        roomType: "kitchen",
-        area: 40,
-        hasAC: true,
-        hasHeating: true
-      },
-      {
-        roomType: "bathroom",
-        area: 15,
-        hasAC: true,
-        hasHeating: true
-      },
-      {
-        roomType: "bathroom",
-        area: 12,
-        hasAC: true,
-        hasHeating: true
-      },
-      {
-        roomType: "bathroom",
-        area: 12,
-        hasAC: true,
-        hasHeating: true
-      }
-    ],
-    features: ["mountain_view", "pool", "smart_home", "luxury_finishes", "garden", "parking", "security", "gym"]
-  },
-  {
-    title: "Cozy Traditional House",
-    description: "Charming 3-bedroom house in Gyumri with traditional architecture. Features wood-burning fireplace, garden with fruit trees, and authentic details throughout.",
-    apartmentType: "house",
-    totalArea: 150,
-    pricePerMonth: 700,
-    bedroomCount: 3,
-    bathroomCount: 2,
-    maxOccupancy: 6,
-    locationAddress: "92 Heritage Street",
-    locationCity: "Gyumri",
-    locationCoordinates: { lat: 40.7942, lng: 43.8453 },
-    hasParking: true,
-    hasYard: true,
-    yardArea: 200,
-    rooms: [
-      {
-        roomType: "bedroom",
-        area: 20,
-        hasAC: false,
-        hasHeating: true,
-        bedCount: 1,
-        bedType: "double"
-      },
-      {
-        roomType: "bedroom",
-        area: 18,
-        hasAC: false,
-        hasHeating: true,
-        bedCount: 2,
-        bedType: "single"
-      },
-      {
-        roomType: "bedroom",
-        area: 18,
-        hasAC: false,
-        hasHeating: true,
-        bedCount: 2,
-        bedType: "single"
-      },
-      {
-        roomType: "living_room",
-        area: 45,
-        hasAC: false,
-        hasHeating: true
-      },
-      {
-        roomType: "kitchen",
-        area: 30,
-        hasAC: false,
-        hasHeating: true
-      },
-      {
-        roomType: "bathroom",
-        area: 10,
-        hasAC: false,
-        hasHeating: true
-      },
-      {
-        roomType: "bathroom",
-        area: 9,
-        hasAC: false,
-        hasHeating: true
-      }
-    ],
-    features: ["traditional_architecture", "fireplace", "garden", "fruit_trees", "parking"]
-  }
-];
 
 function generateEmbeddingText(apt: MockApartment): string {
   // Build a detailed text description that captures all relevant apartment attributes
@@ -308,6 +67,8 @@ function generateEmbeddingText(apt: MockApartment): string {
     `Monthly rent is ${apt.pricePerMonth} USD.`
   ];
 
+  console.log("parts: ", parts);
+
   return parts.filter(Boolean).join(' ');
 }
 
@@ -315,10 +76,10 @@ export async function seedDatabase() {
   try {
     const supabase = await createClient();
     
-    console.log("Here");
-    
+
+
     // First, insert features
-    const uniqueFeatures = new Set(mockApartments.flatMap(apt => apt.features));
+    const uniqueFeatures = new Set<MockApartment['features'][number]>(mockApartments.flatMap((apt: MockApartment) => apt.features));
     for (const feature of uniqueFeatures) {
       await supabase
         .from('apartment_features')
