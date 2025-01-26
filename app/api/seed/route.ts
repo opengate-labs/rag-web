@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server';
-import { seedDatabase } from '@/utils/seed-data';
+import { seedDatabase } from '@/utils/seed-documents';
 
 export async function POST() {
   try {
-    
     await seedDatabase();
     return NextResponse.json({ message: 'Database seeded successfully' });
   } catch (error) {

@@ -1,45 +1,56 @@
-import { NextResponse } from 'next/server';
-import { createClient } from '@/utils/supabase/server';
-import { VoyageEmbedding } from './voyage';
+import { NextResponse } from 'next/server'
+import { getSelfQueryRetriever } from '@/app/ai/self-query-retriever'
+import { Serialized } from '@langchain/core/load/serializable'
 
 export async function POST(request: Request) {
   try {
-    const { query } = await request.json();
+    const { query } = await request.json()
 
-    // Get vector embedding for the search query
-    const embedding = await VoyageEmbedding.getEmbedding(query);
-    const supabase = await createClient();
+    const selfQueryRetriever = await getSelfQueryRetriever()
 
-    // Perform pure vector similarity search
-    const { data: results, error } = await supabase.rpc('match_apartments', {
-      query_embedding: embedding as string,
-      match_threshold: 0.6,
-      match_count: 5
-    });
+    const results = await selfQueryRetriever.invoke(
+      `
+      before using the user input, please consider the following:
+      - if the user input is in armenian (it can be written with english letters), please translate it to english
+      user input: """ ${query} """`,
+      {
+        callbacks: [
+          {
+            handleLLMStart: (llm: Serialized) => {
+              console.log('----- LLM STARTED: ', llm)
+            },
+          },
+          {
+            handleRetrieverStart: (retriever: Serialized) => {
+              console.log('----- RETRIEVER STARTED: ', retriever)
+            },
+          },
+          {
+            handleRetrieverError: (retriever: Serialized) => {
+              console.log('----- RETRIEVER ERROR: ', retriever)
+            },
+          },
+          {
+            handleRetrieverEnd: (documents, runId, parentRunId, tags) => {
+              console.log('----- RETRIEVER END: ', documents, runId, parentRunId, tags)
+            },
+          },
+        ],
+      },
+    )
 
-    console.log("results: ", results);
-    
-    
-
-    if (error) throw error;
-
-    return NextResponse.json(
-      { results: results.map(
-        (result) => ({
-          id: result.id,
-          title: result.title,
-          description: result.description,
-          location: result.location_city,
-          price: result.price_per_month,
-          similarity: result.similarity
-        })) 
-      }
-    );
+    return NextResponse.json({
+      results: results.map((result) => ({
+        id: result.id,
+        title: result.metadata.title,
+        description: result.metadata.description,
+        location: result.metadata.locationCity,
+        price: result.metadata.pricePerMonth,
+        similarity: 0,
+      })),
+    })
   } catch (error) {
-    console.error('Search error:', error);
-    return NextResponse.json(
-      { error: 'Search failed' },
-      { status: 500 }
-    );
+    console.error('Search error:', error)
+    return NextResponse.json({ error: 'Search failed' }, { status: 500 })
   }
 }
