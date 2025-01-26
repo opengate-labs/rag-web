@@ -1,23 +1,23 @@
-export class VoyageEmbedding {
-  static async getEmbedding(text: string): Promise<unknown> {
-    const apiKey = process.env.VOYAGE_API_KEY;
-    const response = await fetch('https://api.voyageai.com/v1/embeddings', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: 'voyage-3-large',
-        input: text,
-      }),
-    });
+import { createClient } from '@/utils/supabase/server'
+import { VoyageEmbeddings } from '@langchain/community/embeddings/voyage'
+import { SupabaseVectorStore } from '@langchain/community/vectorstores/supabase'
 
-    if (!response.ok) {
-      throw new Error('Failed to get embedding from Voyage AI');
-    }
+export const getEmbedding = (inputType: 'document' | 'query') => {
+  const embedding = new VoyageEmbeddings({
+    // modelName: 'voyage-3-large',
+    apiKey: process.env.VOYAGE_API_KEY, // In Node.js defaults to process.env.VOYAGEAI_API_KEY
+    inputType, // Optional: specify input type as 'query', 'document', or omit for None / Undefined / Null
+  })
 
-    const data = await response.json();
-    return data.data[0].embedding;
-  }
-} 
+  return embedding
+}
+
+export const getVectorStore = async (inputType: 'document' | 'query') => {
+  const client = await createClient()
+
+  return new SupabaseVectorStore(getEmbedding(inputType), {
+    client,
+    tableName: 'documents',
+    queryName: 'match_documents',
+  })
+}
