@@ -2,7 +2,8 @@ import { ChatOpenAI } from '@langchain/openai'
 import { SelfQueryRetriever } from 'langchain/retrievers/self_query'
 import type { AttributeInfo } from 'langchain/chains/query_constructor'
 import { SupabaseTranslator } from '@langchain/community/structured_query/supabase'
-import { getVectorStore } from '../api/search/voyage'
+import { getVectorStore } from '@/app/api/search/voyage'
+import { Serialized } from '@langchain/core/load/serializable'
 
 const attributeInfo: AttributeInfo[] = [
   {
@@ -27,7 +28,8 @@ const attributeInfo: AttributeInfo[] = [
   },
   {
     name: 'pricePerMonth',
-    description: 'Monthly rental price',
+    description:
+      'Monthly rental price but if user asks for cheap or expensive use 500 USD as the average price per month',
     type: 'number',
   },
   {
@@ -55,16 +57,16 @@ const attributeInfo: AttributeInfo[] = [
     description: 'City where the property is located',
     type: 'string',
   },
-  // {
-  //   name: "locationCoordinates.lat",
-  //   description: "Latitude coordinate of the property",
-  //   type: "number",
-  // },
-  // {
-  //   name: "locationCoordinates.lng",
-  //   description: "Longitude coordinate of the property",
-  //   type: "number",
-  // },
+  {
+    name: 'locationCoordinates.lat',
+    description: 'Latitude coordinate of the property',
+    type: 'number',
+  },
+  {
+    name: 'locationCoordinates.lng',
+    description: 'Longitude coordinate of the property',
+    type: 'number',
+  },
   {
     name: 'hasParking',
     description: 'Whether the property has parking available',
@@ -89,9 +91,10 @@ const attributeInfo: AttributeInfo[] = [
 
 export async function getSelfQueryRetriever() {
   const llm = new ChatOpenAI({
+    // temperature: 0.5,
     apiKey: process.env.OPENAI_API_KEY,
-    model: 'gpt-4o-mini',
-    verbose: true,
+    model: 'gpt-4o',
+    // verbose: true,
   })
 
   const vectorStore = await getVectorStore('query')
@@ -102,5 +105,6 @@ export async function getSelfQueryRetriever() {
     documentContents: 'Detailed description of an apartment',
     attributeInfo: attributeInfo,
     structuredQueryTranslator: new SupabaseTranslator(),
+    verbose: true,
   })
 }

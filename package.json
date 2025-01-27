@@ -10,6 +10,7 @@
     "gen:types:local": "npx supabase gen types typescript --local > database.types.ts"
   },
   "dependencies": {
+    "@elastic/elasticsearch": "^8.17.0",
     "@langchain/community": "^0.3.27",
     "@langchain/core": "^0.3.36",
     "@langchain/openai": "^0.4.1",
@@ -25,7 +26,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwind-merge": "^2.6.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "uuid": "^11.0.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -38,5 +40,10 @@
     "prettier-plugin-tailwindcss": "^0.6.11",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@langchain/community": "patches/@langchain__community.patch"
+    }
   }
 }
