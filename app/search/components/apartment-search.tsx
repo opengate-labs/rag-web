@@ -20,7 +20,7 @@ export default function ApartmentSearch() {
     try {
       setIsLoading(true)
 
-      const response = await fetch('/api/search', {
+      const response = await fetch('/api/search-elastic', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -1,0 +1,46 @@
+diff --git a/dist/structured_query/supabase.cjs b/dist/structured_query/supabase.cjs
+index d2f41447152d76bb59e782c4263dbd0f240e384a..360ae6bb4b20ba0c2c94be706be06650af0f364a 100644
+--- a/dist/structured_query/supabase.cjs
++++ b/dist/structured_query/supabase.cjs
+@@ -99,6 +99,9 @@ class SupabaseTranslator extends structured_query_1.BaseTranslator {
+         else if ((0, structured_query_1.isFloat)(value)) {
+             column = `metadata->${attr}${includeType ? "::float" : ""}`;
+         }
++        else if ((0, structured_query_1.isBoolean)(value)) {
++            column = `metadata->${attr}${includeType ? "::boolean" : ""}`;
++        }
+         else {
+             throw new Error("Data type not supported");
+         }
+diff --git a/dist/structured_query/supabase.js b/dist/structured_query/supabase.js
+index 228eb7911cd3384a909bd8aa2ad21dcd5132292d..cedae566594c52e0aca7fca181e0baeb1be36ecf 100644
+--- a/dist/structured_query/supabase.js
++++ b/dist/structured_query/supabase.js
+@@ -1,4 +1,4 @@
+-import { isFilterEmpty, isFloat, isInt, isObject, isString, BaseTranslator, Comparators, Operators, } from "@langchain/core/structured_query";
++import { isFilterEmpty, isFloat, isInt, isObject, isString, BaseTranslator, Comparators, Operators, isBoolean, } from "@langchain/core/structured_query";
+ import { ProxyParamsDuplicator, convertObjectFilterToStructuredQuery, } from "./supabase_utils.js";
+ /**
+  * A specialized translator designed to work with Supabase, extending the
+@@ -96,6 +96,9 @@ export class SupabaseTranslator extends BaseTranslator {
+         else if (isFloat(value)) {
+             column = `metadata->${attr}${includeType ? "::float" : ""}`;
+         }
++        else if (isBoolean(value)) {
++            column = `metadata->${attr}${includeType ? "::boolean" : ""}`;
++        }
+         else {
+             throw new Error("Data type not supported");
+         }
+diff --git a/dist/vectorstores/elasticsearch.js b/dist/vectorstores/elasticsearch.js
+index 1b2ce74f75b0964f2c7a31a007e07dae30e6773f..8e93a64407aec139767fe1b2491ef4f1a294dd48 100644
+--- a/dist/vectorstores/elasticsearch.js
++++ b/dist/vectorstores/elasticsearch.js
+@@ -119,6 +119,7 @@ export class ElasticVectorSearch extends VectorStore {
+      * @returns A promise that resolves with an array of tuples, where each tuple contains a Document and its similarity score.
+      */
+     async similaritySearchVectorWithScore(query, k, filter) {
++        console.log('------similaritySearchVectorWithScore', JSON.stringify(this.buildMetadataTerms(filter), null , 2))
+         const result = await this.client.search({
+             index: this.indexName,
+             size: k,
