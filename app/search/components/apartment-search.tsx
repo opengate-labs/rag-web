@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 
 interface SearchResult {
@@ -16,11 +17,14 @@ export default function ApartmentSearch() {
   const [results, setResults] = useState<SearchResult[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleSearch = async () => {
+  const handleSearch = async (e?: React.FormEvent) => {
+    if (e) {
+      e.preventDefault()
+    }
     try {
       setIsLoading(true)
 
-      const response = await fetch('/api/search', {
+      const response = await fetch('/api/search-neo4j', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,7 +44,7 @@ export default function ApartmentSearch() {
 
   return (
     <div className='mx-auto max-w-4xl p-4'>
-      <div className='mb-6'>
+      <form onSubmit={handleSearch} className='mb-6'>
         <label htmlFor='search' className='mb-2 block text-lg font-medium'>
           Describe your ideal apartment
         </label>
@@ -50,15 +54,21 @@ export default function ApartmentSearch() {
           placeholder='Example: We are a family of 5 looking for a 2-bedroom apartment near Sevan Lake...'
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault()
+              handleSearch()
+            }
+          }}
         />
-        <button
-          onClick={handleSearch}
+        <Button
+          type='submit'
           disabled={isLoading}
           className='mt-4 rounded-lg bg-blue-600 px-6 py-2 text-white hover:bg-blue-700 disabled:bg-blue-300'
         >
           {isLoading ? 'Searching...' : 'Search'}
-        </button>
-      </div>
+        </Button>
+      </form>
 
       {results?.length > 0 && (
         <div className='space-y-4'>

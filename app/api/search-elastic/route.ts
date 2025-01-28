@@ -1,17 +1,17 @@
 import { NextResponse } from 'next/server'
-import { getSelfQueryRetriever } from '@/ai/self-query-retriever'
+import { getElasticSelfQueryRetriever } from '@/ai/elastic.self-query-retriever'
 import { Serialized } from '@langchain/core/load/serializable'
 
 export async function POST(request: Request) {
   try {
     const { query } = await request.json()
 
-    const selfQueryRetriever = await getSelfQueryRetriever()
+    const elasticSelfQueryRetriever = await getElasticSelfQueryRetriever()
 
-    const results = await selfQueryRetriever.invoke(
+    const results = await elasticSelfQueryRetriever.invoke(
       `
       before using the user input, please consider the following:
-      - if the user input is in armenian (it can be written with english letters), please translate it to english
+      - if the user input is in armenian (it may be written with english letters), please translate it to english
       user input: """ ${query} """`,
       {
         callbacks: [
@@ -20,21 +20,21 @@ export async function POST(request: Request) {
               console.log('----- LLM STARTED: ', llm)
             },
           },
-          {
-            handleRetrieverStart: (retriever: Serialized) => {
-              console.log('----- RETRIEVER STARTED: ', retriever)
-            },
-          },
-          {
-            handleRetrieverError: (retriever: Serialized) => {
-              console.log('----- RETRIEVER ERROR: ', retriever)
-            },
-          },
-          {
-            handleRetrieverEnd: (runId, parentRunId, tags) => {
-              console.log('----- RETRIEVER END: ', runId, parentRunId, tags)
-            },
-          },
+          // {
+          //   handleRetrieverStart: (retriever: Serialized) => {
+          //     console.log('----- RETRIEVER STARTED: ', retriever)
+          //   },
+          // },
+          // {
+          //   handleRetrieverError: (retriever: Serialized) => {
+          //     console.log('----- RETRIEVER ERROR: ', retriever)
+          //   },
+          // },
+          // {
+          //   handleRetrieverEnd: (documents, runId, parentRunId, tags) => {
+          //     console.log('----- RETRIEVER END: ', documents, runId, parentRunId, tags)
+          //   },
+          // },
         ],
       },
     )
