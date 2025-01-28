@@ -21,6 +21,7 @@
     "clsx": "^2.1.1",
     "langchain": "^0.3.13",
     "lucide-react": "^0.473.0",
+    "neo4j-driver": "^5.27.0",
     "next": "15.1.6",
     "peggy": "^4.2.0",
     "react": "^19.0.0",
