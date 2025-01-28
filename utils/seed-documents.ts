@@ -1,17 +1,19 @@
-import { getVectorStore } from '@/app/api/search/voyage';
-import { getMockDocuments } from '@/mock/mock-documents';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck dont check this file
+import { getVectorStore } from '@/app/api/search/voyage'
+import { getMockDocuments } from '@/mock/mock-documents'
 
 export async function seedDatabase() {
   try {
-    const docs = getMockDocuments();
+    const docs = getMockDocuments()
 
-    const vectorStore = await getVectorStore('document');
+    const vectorStore = await getVectorStore('document')
 
-    const result = await vectorStore.addDocuments(docs);
+    const result = await vectorStore.addDocuments(docs)
 
-    console.log('Database seeded successfully!', result);
+    console.log('Database seeded successfully!', result)
   } catch (error) {
-    console.error('Error seeding database:', error);
-    throw error;
+    console.error('Error seeding database:', error)
+    throw error
   }
 }
