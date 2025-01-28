@@ -1,5 +1,6 @@
 import { getEmbedding } from '@/app/api/search/voyage'
 import { v4 as uuidv4 } from 'uuid'
+import { RoomType } from './nodes/types'
 
 export interface MockApartmentDocument {
   embedding: number[]
@@ -18,7 +19,7 @@ export interface MockApartmentDocument {
   hasYard: boolean
   yardArea?: number
   rooms: Array<{
-    roomType: 'bedroom' | 'living_room' | 'kitchen' | 'bathroom'
+    roomType: RoomType
     area: number
     hasAC: boolean
     hasHeating: boolean
@@ -49,7 +50,7 @@ export const mockApartments: MockApartmentDocument[] = [
     yardArea: 30,
     rooms: [
       {
-        roomType: 'bedroom',
+        roomType: RoomType.BEDROOM,
         area: 25,
         hasAC: true,
         hasHeating: true,
@@ -57,7 +58,7 @@ export const mockApartments: MockApartmentDocument[] = [
         bedType: 'double',
       },
       {
-        roomType: 'bedroom',
+        roomType: RoomType.BEDROOM,
         area: 20,
         hasAC: false,
         hasHeating: true,
@@ -65,19 +66,19 @@ export const mockApartments: MockApartmentDocument[] = [
         bedType: 'single',
       },
       {
-        roomType: 'living_room',
+        roomType: RoomType.LIVING_ROOM,
         area: 35,
         hasAC: true,
         hasHeating: true,
       },
       {
-        roomType: 'kitchen',
+        roomType: RoomType.KITCHEN,
         area: 25,
         hasAC: false,
         hasHeating: true,
       },
       {
-        roomType: 'bathroom',
+        roomType: RoomType.BATHROOM,
         area: 15,
         hasAC: false,
         hasHeating: true,
@@ -104,7 +105,7 @@ export const mockApartments: MockApartmentDocument[] = [
     hasYard: false,
     rooms: [
       {
-        roomType: 'living_room',
+        roomType: RoomType.LIVING_ROOM,
         area: 30,
         hasAC: true,
         hasHeating: true,
@@ -112,13 +113,13 @@ export const mockApartments: MockApartmentDocument[] = [
         bedType: 'murphy',
       },
       {
-        roomType: 'kitchen',
+        roomType: RoomType.KITCHEN,
         area: 10,
         hasAC: false,
         hasHeating: true,
       },
       {
-        roomType: 'bathroom',
+        roomType: RoomType.BATHROOM,
         area: 5,
         hasAC: false,
         hasHeating: true,
@@ -146,7 +147,7 @@ export const mockApartments: MockApartmentDocument[] = [
     yardArea: 500,
     rooms: [
       {
-        roomType: 'bedroom',
+        roomType: RoomType.BEDROOM,
         area: 40,
         hasAC: true,
         hasHeating: true,
@@ -154,7 +155,7 @@ export const mockApartments: MockApartmentDocument[] = [
         bedType: 'king',
       },
       {
-        roomType: 'bedroom',
+        roomType: RoomType.BEDROOM,
         area: 35,
         hasAC: true,
         hasHeating: true,
@@ -162,7 +163,7 @@ export const mockApartments: MockApartmentDocument[] = [
         bedType: 'queen',
       },
       {
-        roomType: 'bedroom',
+        roomType: RoomType.BEDROOM,
         area: 30,
         hasAC: true,
         hasHeating: true,
@@ -170,7 +171,7 @@ export const mockApartments: MockApartmentDocument[] = [
         bedType: 'single',
       },
       {
-        roomType: 'bedroom',
+        roomType: RoomType.BEDROOM,
         area: 30,
         hasAC: true,
         hasHeating: true,
@@ -178,31 +179,31 @@ export const mockApartments: MockApartmentDocument[] = [
         bedType: 'single',
       },
       {
-        roomType: 'living_room',
+        roomType: RoomType.LIVING_ROOM,
         area: 80,
         hasAC: true,
         hasHeating: true,
       },
       {
-        roomType: 'kitchen',
+        roomType: RoomType.KITCHEN,
         area: 40,
         hasAC: true,
         hasHeating: true,
       },
       {
-        roomType: 'bathroom',
+        roomType: RoomType.BATHROOM,
         area: 15,
         hasAC: true,
         hasHeating: true,
       },
       {
-        roomType: 'bathroom',
+        roomType: RoomType.BATHROOM,
         area: 12,
         hasAC: true,
         hasHeating: true,
       },
       {
-        roomType: 'bathroom',
+        roomType: RoomType.BATHROOM,
         area: 12,
         hasAC: true,
         hasHeating: true,
@@ -230,7 +231,7 @@ export const mockApartments: MockApartmentDocument[] = [
     yardArea: 200,
     rooms: [
       {
-        roomType: 'bedroom',
+        roomType: RoomType.BEDROOM,
         area: 20,
         hasAC: false,
         hasHeating: true,
@@ -238,7 +239,7 @@ export const mockApartments: MockApartmentDocument[] = [
         bedType: 'double',
       },
       {
-        roomType: 'bedroom',
+        roomType: RoomType.BEDROOM,
         area: 18,
         hasAC: false,
         hasHeating: true,
@@ -246,7 +247,7 @@ export const mockApartments: MockApartmentDocument[] = [
         bedType: 'single',
       },
       {
-        roomType: 'bedroom',
+        roomType: RoomType.BEDROOM,
         area: 18,
         hasAC: false,
         hasHeating: true,
@@ -254,25 +255,25 @@ export const mockApartments: MockApartmentDocument[] = [
         bedType: 'single',
       },
       {
-        roomType: 'living_room',
+        roomType: RoomType.LIVING_ROOM,
         area: 45,
         hasAC: false,
         hasHeating: true,
       },
       {
-        roomType: 'kitchen',
+        roomType: RoomType.KITCHEN,
         area: 30,
         hasAC: false,
         hasHeating: true,
       },
       {
-        roomType: 'bathroom',
+        roomType: RoomType.BATHROOM,
         area: 10,
         hasAC: false,
         hasHeating: true,
       },
       {
-        roomType: 'bathroom',
+        roomType: RoomType.BATHROOM,
         area: 9,
         hasAC: false,
         hasHeating: true,
@@ -300,7 +301,7 @@ export const mockApartments: MockApartmentDocument[] = [
     yardArea: 40,
     rooms: [
       {
-        roomType: 'bedroom',
+        roomType: RoomType.BEDROOM,
         area: 28,
         hasAC: true,
         hasHeating: true,
@@ -308,7 +309,7 @@ export const mockApartments: MockApartmentDocument[] = [
         bedType: 'king',
       },
       {
-        roomType: 'bedroom',
+        roomType: RoomType.BEDROOM,
         area: 22,
         hasAC: false,
         hasHeating: true,
@@ -316,7 +317,7 @@ export const mockApartments: MockApartmentDocument[] = [
         bedType: 'single',
       },
       {
-        roomType: 'bedroom',
+        roomType: RoomType.BEDROOM,
         area: 20,
         hasAC: false,
         hasHeating: true,
@@ -324,25 +325,25 @@ export const mockApartments: MockApartmentDocument[] = [
         bedType: 'single',
       },
       {
-        roomType: 'living_room',
+        roomType: RoomType.LIVING_ROOM,
         area: 35,
         hasAC: true,
         hasHeating: true,
       },
       {
-        roomType: 'kitchen',
+        roomType: RoomType.KITCHEN,
         area: 20,
         hasAC: false,
         hasHeating: true,
       },
       {
-        roomType: 'bathroom',
+        roomType: RoomType.BATHROOM,
         area: 8,
         hasAC: false,
         hasHeating: true,
       },
       {
-        roomType: 'bathroom',
+        roomType: RoomType.BATHROOM,
         area: 7,
         hasAC: false,
         hasHeating: true,
@@ -369,7 +370,7 @@ export const mockApartments: MockApartmentDocument[] = [
     hasYard: false,
     rooms: [
       {
-        roomType: 'living_room',
+        roomType: RoomType.LIVING_ROOM,
         area: 25,
         hasAC: true,
         hasHeating: true,
@@ -377,13 +378,13 @@ export const mockApartments: MockApartmentDocument[] = [
         bedType: 'murphy',
       },
       {
-        roomType: 'kitchen',
+        roomType: RoomType.KITCHEN,
         area: 5,
         hasAC: false,
         hasHeating: true,
       },
       {
-        roomType: 'bathroom',
+        roomType: RoomType.BATHROOM,
         area: 5,
         hasAC: false,
         hasHeating: true,
@@ -411,7 +412,7 @@ export const mockApartments: MockApartmentDocument[] = [
     yardArea: 300,
     rooms: [
       {
-        roomType: 'bedroom',
+        roomType: RoomType.BEDROOM,
         area: 25,
         hasAC: true,
         hasHeating: true,
@@ -419,7 +420,7 @@ export const mockApartments: MockApartmentDocument[] = [
         bedType: 'queen',
       },
       {
-        roomType: 'bedroom',
+        roomType: RoomType.BEDROOM,
         area: 22,
         hasAC: true,
         hasHeating: true,
@@ -427,7 +428,7 @@ export const mockApartments: MockApartmentDocument[] = [
         bedType: 'double',
       },
       {
-        roomType: 'bedroom',
+        roomType: RoomType.BEDROOM,
         area: 20,
         hasAC: false,
         hasHeating: true,
@@ -435,7 +436,7 @@ export const mockApartments: MockApartmentDocument[] = [
         bedType: 'single',
       },
       {
-        roomType: 'bedroom',
+        roomType: RoomType.BEDROOM,
         area: 20,
         hasAC: false,
         hasHeating: true,
@@ -443,25 +444,25 @@ export const mockApartments: MockApartmentDocument[] = [
         bedType: 'single',
       },
       {
-        roomType: 'living_room',
+        roomType: RoomType.LIVING_ROOM,
         area: 45,
         hasAC: true,
         hasHeating: true,
       },
       {
-        roomType: 'kitchen',
+        roomType: RoomType.KITCHEN,
         area: 30,
         hasAC: false,
         hasHeating: true,
       },
       {
-        roomType: 'bathroom',
+        roomType: RoomType.BATHROOM,
         area: 10,
         hasAC: false,
         hasHeating: true,
       },
       {
-        roomType: 'bathroom',
+        roomType: RoomType.BATHROOM,
         area: 8,
         hasAC: false,
         hasHeating: true,
@@ -489,7 +490,7 @@ export const mockApartments: MockApartmentDocument[] = [
     yardArea: 50,
     rooms: [
       {
-        roomType: 'bedroom',
+        roomType: RoomType.BEDROOM,
         area: 30,
         hasAC: true,
         hasHeating: true,
@@ -497,7 +498,7 @@ export const mockApartments: MockApartmentDocument[] = [
         bedType: 'queen',
       },
       {
-        roomType: 'bedroom',
+        roomType: RoomType.BEDROOM,
         area: 25,
         hasAC: false,
         hasHeating: true,
@@ -505,7 +506,7 @@ export const mockApartments: MockApartmentDocument[] = [
         bedType: 'single',
       },
       {
-        roomType: 'bedroom',
+        roomType: RoomType.BEDROOM,
         area: 25,
         hasAC: false,
         hasHeating: true,
@@ -513,25 +514,25 @@ export const mockApartments: MockApartmentDocument[] = [
         bedType: 'single',
       },
       {
-        roomType: 'living_room',
+        roomType: RoomType.LIVING_ROOM,
         area: 40,
         hasAC: true,
         hasHeating: true,
       },
       {
-        roomType: 'kitchen',
+        roomType: RoomType.KITCHEN,
         area: 25,
         hasAC: false,
         hasHeating: true,
       },
       {
-        roomType: 'bathroom',
+        roomType: RoomType.BATHROOM,
         area: 8,
         hasAC: false,
         hasHeating: true,
       },
       {
-        roomType: 'bathroom',
+        roomType: RoomType.BATHROOM,
         area: 7,
         hasAC: false,
         hasHeating: true,
@@ -559,7 +560,7 @@ export const mockApartments: MockApartmentDocument[] = [
     yardArea: 20,
     rooms: [
       {
-        roomType: 'bedroom',
+        roomType: RoomType.BEDROOM,
         area: 20,
         hasAC: true,
         hasHeating: true,
@@ -567,7 +568,7 @@ export const mockApartments: MockApartmentDocument[] = [
         bedType: 'double',
       },
       {
-        roomType: 'bedroom',
+        roomType: RoomType.BEDROOM,
         area: 18,
         hasAC: false,
         hasHeating: true,
@@ -575,19 +576,19 @@ export const mockApartments: MockApartmentDocument[] = [
         bedType: 'single',
       },
       {
-        roomType: 'living_room',
+        roomType: RoomType.LIVING_ROOM,
         area: 25,
         hasAC: false,
         hasHeating: true,
       },
       {
-        roomType: 'kitchen',
+        roomType: RoomType.KITCHEN,
         area: 15,
         hasAC: false,
         hasHeating: true,
       },
       {
-        roomType: 'bathroom',
+        roomType: RoomType.BATHROOM,
         area: 7,
         hasAC: false,
         hasHeating: true,
@@ -614,7 +615,7 @@ export const mockApartments: MockApartmentDocument[] = [
     hasYard: false,
     rooms: [
       {
-        roomType: 'living_room',
+        roomType: RoomType.LIVING_ROOM,
         area: 22,
         hasAC: true,
         hasHeating: true,
@@ -622,13 +623,13 @@ export const mockApartments: MockApartmentDocument[] = [
         bedType: 'murphy',
       },
       {
-        roomType: 'kitchen',
+        roomType: RoomType.KITCHEN,
         area: 4,
         hasAC: false,
         hasHeating: true,
       },
       {
-        roomType: 'bathroom',
+        roomType: RoomType.BATHROOM,
         area: 4,
         hasAC: false,
         hasHeating: true,

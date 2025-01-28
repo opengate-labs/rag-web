@@ -1,4 +1,3 @@
-import { getElasticVectorStore } from '@/elastic'
 import { getMockDocuments } from '@/mock/mock-documents'
 import { Client } from '@elastic/elasticsearch'
 
