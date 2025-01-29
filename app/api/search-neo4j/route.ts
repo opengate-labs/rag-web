@@ -21,12 +21,17 @@ export async function POST(request: Request) {
 
     const results = await graphChain.invoke(
       {
+        // - if the user input is in armenian (it can be written with english letters), please translate it to english
         query: `
           before using the user input, please consider the following:
-          - if the user input is in armenian (it can be written with english letters), please translate it to english
+          - translate the user input to english and make it more appropriate for the search
           - return the most relevant Place nodes based on the following query:
+          - use relationships if only you need information from them
+          - for text search, use the following fields: title, description, locationAddress and try to change user input to match the context
+          - dont use other values for (amenities,placeAmenities), just use the ones that are in the schema
           user input: """ ${query} """
-        `,
+          `,
+        // - dont be very strict with the user input, it can be a bit vague but follow our schema
         schema,
       },
       {

@@ -1,5 +1,6 @@
 import { Neo4jGraph } from '@langchain/community/graphs/neo4j_graph'
 import { ChatOpenAI } from '@langchain/openai'
+// import { ChatDeepSeek } from '@langchain/deepseek'
 // import { GraphCypherQAChain } from '@langchain/community/chains/graph_qa/cypher'
 
 /**
@@ -13,8 +14,8 @@ export const getNeo4jGraph = async () => {
   const password = process.env.NEO4J_PASSWORD || 'pleaseletmein'
 
   const graph = await Neo4jGraph.initialize({ url, username, password, enhancedSchema: true })
-  // const model = new ChatOpenAI({ temperature: 0, apiKey: process.env.OPENAI_API_KEY, modelName: 'gpt-4o' })
   const model = new ChatOpenAI({ temperature: 0, apiKey: process.env.OPENAI_API_KEY, modelName: 'gpt-4o' })
+  // const model = new ChatDeepSeek({ temperature: 0, apiKey: process.env.DEEPSEEK_API_KEY, model: 'deepseek-reasoner' })
 
   return { graph, model }
 }
